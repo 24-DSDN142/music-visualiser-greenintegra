@@ -17,21 +17,21 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     imageMode(CENTER);
 
     appleImage = loadImage('apple.png');
-    girlImage.push(loadImage('/girl/girlBody.png'));
-    girlImage.push(loadImage('/girl/girlClothes.png'));
-    girlImage.push(loadImage('/girl/girlHead.png'));
-    girlImage.push(loadImage('/girl/girlFrontHair.png'));
-    girlImage.push(loadImage('/girl/girlChin.png'));
-    girlImage.push(loadImage('/girl/girlEyelids.png'));
-    girlImage.push(loadImage('/girl/girlEyesClosed.png'));
-    girlImage.push(loadImage('/girl/girlLeftEye.png'));
-    girlImage.push(loadImage('/girl/girlRightEye.png'));
-    girlImage.push(loadImage('/girl/girlNose.png'));
-    girlImage.push(loadImage('/girl/mouth.png'));
-    girlImage.push(loadImage('/girl/mouth1.png'));
-    girlImage.push(loadImage('/girl/mouth2.png'));
-    girlImage.push(loadImage('/girl/mouth3.png'));
-    girlImage.push(loadImage('/girl/mouth4.png'));
+    girlImage.push(loadImage('/girl/girlBody.png'));          //0
+    girlImage.push(loadImage('/girl/girlClothes.png'));       //1
+    girlImage.push(loadImage('/girl/girlHead.png'));          //2
+    girlImage.push(loadImage('/girl/girlFrontHair.png'));     //3
+    girlImage.push(loadImage('/girl/girlChin.png'));          //4
+    girlImage.push(loadImage('/girl/girlEyelids.png'));       //5
+    girlImage.push(loadImage('/girl/girlEyesClosed.png'));    //6
+    girlImage.push(loadImage('/girl/girlLeftEye.png'));       //7
+    girlImage.push(loadImage('/girl/girlRightEye.png'));      //8
+    girlImage.push(loadImage('/girl/girlNose.png'));          //9
+    girlImage.push(loadImage('/girl/mouth.png'));             //10
+    girlImage.push(loadImage('/girl/mouth1.png'));            //11
+    girlImage.push(loadImage('/girl/mouth2.png'));            //12
+    girlImage.push(loadImage('/girl/mouth3.png'));            //13
+    girlImage.push(loadImage('/girl/mouth4.png'));            //14
 
     firstRun = false
   }
@@ -54,6 +54,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   let chord1 = 7322;
   let chord2 = 7828;
   let chord3 = 8306; //480ms approx. between beats
+  let openEyes = 14500;
   let lyric1 = 15200;
 
   if (realTime > chime1 - 100 && realTime < chime1 + 1400) {
@@ -76,17 +77,35 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     fill(137, 204, 4);
     rect(canvasWidth / 2, canvasHeight / 2, map(realTime, chime3, chime3 + 100, 0, canvasWidth), canvasHeight);
     pop();
-    push();
-    let applesVertical = 7;
-    let applesHorizontal = 10;
-    for (let x = 0; x < applesHorizontal; x++) {
-      for (let i = 0; i < applesVertical; i++) {
-        tint(255, 50);
-        image(appleImage, map(i, 0, applesVertical, 0, -canvasWidth) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), map(i, 0, applesVertical, 0, canvasHeight * 1.75), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+    if (realTime < 16657){
+      push();
+      let applesVertical = 7;
+      let applesHorizontal = 10;
+      for (let x = 0; x < applesHorizontal; x++) {
+        for (let i = 0; i < applesVertical; i++) {
+          tint(255, 50);
+          image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), map(i, 0, applesVertical, 0, canvasHeight * 1.75), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
 
+        }
       }
-    }
-    pop();
+      pop();
+    } else {
+      push();
+      let applesVertical = 7;
+      let applesHorizontal = 10;
+      for (let x = 0; x < applesHorizontal; x++) {
+        for (let i = 0; i < applesVertical; i++) {
+          tint(255, 50);
+          if (realTime < 16657+1000){
+          image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), (map(realTime, 16657, 16657+1000, (map(i, 0, applesVertical, 0, canvasHeight * 1.75)), canvasHeight)), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+          } else {
+            tint(255,map(realTime, 16657+1000, 16657+2000,50,0));
+            image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), (map(realTime, 16657, 16657+1000, (map(i, 0, applesVertical, 0, canvasHeight * 1.75)), canvasHeight)), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+          }
+          
+        }
+      }
+      pop();}
     push();
     if (drum > 90) {
       if (!isPulsing) {
@@ -121,22 +140,42 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     }
     if (loaded == false) {
       for (let i = 0; i <= 14; i++) {
-        if (realTime < chime3 + 3300) {
+        if (realTime < chime3 + 4300) {
           // translate(0, map(realTime, chime3, chime3+3300, canvasHeight, canvasHeight/1.5));
           if (i == 5 || i >= 11 || i == 7 || i == 8) {
 
           } else if (i < 2) {
-            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+            image(girlImage[i], canvasWidth / 2, (map(realTime, chime3+1000, chime3+4300, canvasHeight+200, canvasHeight/1.5)), canvasHeight / 1.2, canvasHeight / 1.2);
           } else {
-            image(girlImage[i], canvasWidth / 2, map(realTime, chime3, chime3+3300, canvasHeight, canvasHeight/1.5)+(map(-drumGirl, 70, 100, 0, -2)), canvasHeight / 1.2, canvasHeight / 1.2);
+            image(girlImage[i], canvasWidth / 2, (map(realTime, chime3+1000, chime3+4300, canvasHeight+200, canvasHeight/1.5)+(map(-drumGirl, 70, 100, 0, -2))), canvasHeight / 1.2, canvasHeight / 1.2);
           }
-        } else if (realTime > chime3 + 3300) {
+        } else if (realTime > chime3 + 4300 && realTime < openEyes) {
           if (i == 5 || i >= 11 || i == 7 || i == 8) {
 
           } else if (i < 2) {
             image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
           } else {
             image(girlImage[i], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2);
+          }
+        } else if (realTime > openEyes && realTime < lyric1) {
+          if (i == 6 || i > 10) {
+
+          } else {
+            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+          }
+        } else if (realTime > lyric1) {
+          if (i == 6 || i > 10) {
+
+          } else if (i < 10) {
+            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+          } else {
+            if (map(vocal,50,80,10,14) < 10) {
+              image(girlImage[10], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
+            } else if (map(vocal,50,80,10,14) > 14) {
+              image(girlImage[14], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
+            } else {
+              image(girlImage[int(map(vocal, 50, 80, 10, 14))], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
+            }
           }
         }
       }
