@@ -6,6 +6,9 @@ let fadeStart = 0;
 let isPulsing = false;
 let pulseLength = 500;
 let appleImage;
+let eyesImage;
+let planeImage;
+let carsImage;
 let girlImage = [];
 let loaded = false;
 let drumGirl;
@@ -17,6 +20,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     imageMode(CENTER);
 
     appleImage = loadImage('apple.png');
+    eyesImage = loadImage('eyes.png');
+    planeImage = loadImage('airplane.png');
+    carImage = loadImage('car.png');
     girlImage.push(loadImage('/girl/girlBody.png'));          //0
     girlImage.push(loadImage('/girl/girlClothes.png'));       //1
     girlImage.push(loadImage('/girl/girlHead.png'));          //2
@@ -56,6 +62,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   let chord3 = 8306; //480ms approx. between beats
   let openEyes = 14500;
   let lyric1 = 15200;
+  let throwApple = 22330;
+  let theAirport1 = 29650;
 
   if (realTime > chime1 - 100 && realTime < chime1 + 1400) {
     push();
@@ -83,29 +91,40 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       let applesHorizontal = 10;
       for (let x = 0; x < applesHorizontal; x++) {
         for (let i = 0; i < applesVertical; i++) {
-          tint(255, 50);
+          tint(255, 100);
           image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), map(i, 0, applesVertical, 0, canvasHeight * 1.75), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
 
         }
       }
       pop();
-    } else {
+    } else if (realTime > 16657 && realTime < 16657+2001) {
       push();
       let applesVertical = 7;
       let applesHorizontal = 10;
       for (let x = 0; x < applesHorizontal; x++) {
         for (let i = 0; i < applesVertical; i++) {
-          tint(255, 50);
+          tint(255, 100);
           if (realTime < 16657+1000){
           image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), (map(realTime, 16657, 16657+1000, (map(i, 0, applesVertical, 0, canvasHeight * 1.75)), canvasHeight)), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
-          } else {
+          } else if (realTime < 16657+2000) {
             tint(255,map(realTime, 16657+1000, 16657+2000,50,0));
             image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), (map(realTime, 16657, 16657+1000, (map(i, 0, applesVertical, 0, canvasHeight * 1.75)), canvasHeight)), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
           }
-          
         }
       }
-      pop();}
+      pop();} else if (realTime > theAirport1) {
+        push();
+        tint(255,100);
+        image(carImage, map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50, 50);
+        image(carImage, map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50), 75, 50, 50);
+        image(carImage, map(drum,0,100,1,4)*(map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50)), 125, 50, 50);
+        push();
+        rotate(45)
+        image(planeImage, map(realTime, theAirport1, theAirport1+4000, -50, canvasWidth+50), map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50);
+        image(planeImage, map(realTime, theAirport1+500, theAirport1+4500, -150, canvasWidth+50), map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -150), 50, 50);
+        pop();
+        pop();
+      }
     push();
     if (drum > 90) {
       if (!isPulsing) {
@@ -163,18 +182,34 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
           } else {
             image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
           }
-        } else if (realTime > lyric1) {
+        } else if (realTime > lyric1 && realTime < throwApple) {
           if (i == 6 || i > 10) {
 
           } else if (i < 10) {
             image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
           } else {
-            if (map(vocal,50,80,10,14) < 10) {
+            if (map(vocal,60,80,10,14) < 10) {
               image(girlImage[10], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
-            } else if (map(vocal,50,80,10,14) > 14) {
+            } else if (map(vocal,60,80,10,14) > 14) {
               image(girlImage[14], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
             } else {
               image(girlImage[int(map(vocal, 50, 80, 10, 14))], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2)
+            }
+          }
+        } else {
+          if (i == 6 || i > 10) {
+
+          } else if (i < 2) {
+            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+          } else if (i < 10) {
+            image(girlImage[i], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2);
+          } else {
+            if (map(vocal,60,80,10,14) < 10) {
+              image(girlImage[10], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2)
+            } else if (map(vocal,60,80,10,14) > 14) {
+              image(girlImage[14], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2)
+            } else {
+              image(girlImage[int(map(vocal, 50, 80, 10, 14))], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2)
             }
           }
         }
