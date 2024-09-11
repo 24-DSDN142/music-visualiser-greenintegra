@@ -103,7 +103,6 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
     translate(map(realTime, chime3+300, chime3+3300, canvasWidth+50, speaker2PositionX),map(realTime, chime3+300, chime3+3300, canvasHeight+50, speaker2PositionY));
     drawSpeaker(0, 0, map(drum, 0, 100, speaker2SizeX/2, speaker2SizeX), map(drum, 0, 100, speaker2SizeY/2, speaker2SizeY), speaker2Rotation, speaker2Color);
     pop();
-    pop();
     push();
     translate(map(realTime, chime3+300, chime3+3300, canvasWidth+50, speaker3PositionX),map(realTime, chime3+300, chime3+3300, canvasHeight+50, speaker3PositionY));
     drawSpeaker(0, 0, map(drum, 0, 100, speaker3SizeX/2, speaker3SizeX), map(drum, 0, 100, speaker3SizeY/2, speaker3SizeY), speaker3Rotation, speaker3Color);
