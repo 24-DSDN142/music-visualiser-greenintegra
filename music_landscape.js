@@ -1,52 +1,97 @@
-var last_words = "";
-var last_words_opacity = 0;
-var bratGreen = color(100,255,0);
+let last_words = "";
+let last_words_opacity = 0;
+let img;
 
 function draw_one_frame(words, vocal, drum, bass, other,counter) {
-  var realTime = map(counter, 0, 9282, 0, 154709);
+  let interval = 480;
+  let bratGreen = color(100,255,0);
+  let realTime = map(counter, 0, 9282, 0, 154709);
+
+  let adjustedTime = realTime-7828;
+  let cycleTime = adjustedTime % interval;
+  if (adjustedTime < 0){
+    adjustedTime = 0;
+  }
+  print(cycleTime)
+
   fill(200);
   textAlign(LEFT);
-  // demonstrate use of non-documented "counter" variable
-  var seconds = realTime
+  // demonstrate use of non-documented "counter" letiable
+  let seconds = realTime
   if(seconds > 0) {
     textSize(60);
     text(nf(realTime, 3, 2), 20, height-20);
   }
-  print(realTime)
+  // print(realTime)
 
   background(0,0,0);
   fill(100,255,0);
 
-  var chime1 = 5412;
-  var chime2 = 6367;
-  var chime3 = 6850;
-  var chord1 = 7322;
-  if (realTime > chime1-100 && realTime < chime2+100){
-    push()
-    fill(bratGreen, map(realTime, chime1+600, chime2, 100, 0));
+  let chime1 = 5412;
+  let chime2 = 6367;
+  let chime3 = 6850;
+  let chord1 = 7322;
+  let chord2 = 7828;
+  let chord3 = 8306; //500ms approx. between beats
+  let ms = millis();
+
+  if (realTime > chime1-100 && realTime < chime1+1400){
+    push();
+    fill(100,255,0, map(realTime, chime1+400, chime1+500, 100, 0));
     rect(0,0,map(other, 50, 100, 0, canvasWidth/2),canvasHeight);
-    pop()
+    pop();
   }
 
-  if (realTime > chime2-100 && realTime < chime3+400){
-    push()
-    fill(100, 255, 0, map(realTime, chime2+300, chime3+100, 100, 0));
+  if (realTime > chime2-100 && realTime < chime2+1400){
+    push();
+    fill(100,255,0, map(realTime, chime2+400, chime2+500, 100, 0));
     rect(canvasWidth,0,map(other, 50, 100, 0, -canvasWidth/2),canvasHeight);
-    pop()
+    pop();
   }
 
-if (realTime > chime3){
-  background(bratGreen);
-}
+  if (realTime > chime3){
+    background(100,255,0,map(realTime, chime3+500, chime3+750, 100, 0));
+  }
 
-  if (realTime > chord1 && realTime < 7814){
-    push()
+  if (cycleTime > 0){
+    push();
     noFill();
-    stroke(bratGreen, map(realTime, chord1+200, 7814, 100, 0));
+    stroke(100,255,0, map(cycleTime, 250, interval, 100, 0));
     strokeWeight(20);
-    circle(canvasWidth/2,canvasHeight/2,map(realTime, chord1, 7814, 30, canvasHeight));
-    pop()
+    circle(canvasWidth/2,canvasHeight/2,map(cycleTime, 0, interval, 30, canvasHeight));
+    pop();
   }
+
+  // if (realTime > chord3 && realTime < chord3+500){
+  //   push();
+  //   noFill();
+  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   strokeWeight(20);
+  //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
+  //   pop();
+  // }
+  // while(realTime > chord3){
+  //   push();
+  //   noFill();
+  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   strokeWeight(20);
+  //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
+  //   wait(.5);
+  //   pop();
+  // }
+
+  // for(let i = 1; i < 50; i++){
+  //   push();
+  //   print(i);
+  //   let circlePulseStep = (i*500)+chord3
+  //   noFill();
+  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   strokeWeight(20);
+  //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
+  //   pop();
+  // }
+
+
 
 
 
@@ -60,35 +105,35 @@ if (realTime > chime3){
   // background(255,236,180); // cream
   // fill(244,161,39); // orange
 
-  // var stripeWidth = map(other, 40, 100, 40, 80, true);
+  // let stripeWidth = map(other, 40, 100, 40, 80, true);
 
-  // var numStripes = height / stripeWidth;
-  // for(var i=0; i<numStripes; i=i+2) {
-  //   var cury = map(i, 0, numStripes-1, 0, height);
+  // let numStripes = height / stripeWidth;
+  // for(let i=0; i<numStripes; i=i+2) {
+  //   let cury = map(i, 0, numStripes-1, 0, height);
   //   rect(0, cury, width, stripeWidth);
   // }
 
-  // var triangleHeight = map(bass, 40, 100, 200, 550, true);
+  // let triangleHeight = map(bass, 40, 100, 200, 550, true);
   // fill(117,200,174); // teal
-  // for(var i=0; i<3; i++) {
-  //   var cur_x = map(i, 0, 4, 0, width);
-  //   var next_x = map(i+1, 0, 3, 0, width);
-  //   var mid_x = (cur_x + next_x) / 2.0;
-  //   //var cur_y = 4 * height / 5;
-  //   var cur_y = height 
+  // for(let i=0; i<3; i++) {
+  //   let cur_x = map(i, 0, 4, 0, width);
+  //   let next_x = map(i+1, 0, 3, 0, width);
+  //   let mid_x = (cur_x + next_x) / 2.0;
+  //   //let cur_y = 4 * height / 5;
+  //   let cur_y = height 
   //   triangle(cur_x, cur_y, mid_x, cur_y - triangleHeight, next_x, cur_y);
   // }
 
 
-  // var drumSize = map(drum, 30, 100, 30, 300, true);
+  // let drumSize = map(drum, 30, 100, 30, 300, true);
   // fill(90,61,43); // brown
   // rect(0, 0, drumSize, drumSize);
   // rect(width, 0, -drumSize, drumSize);
   // rect(0, height, drumSize, -drumSize);
   // rect(width, height, -drumSize, -drumSize);
 
-  // var ovalPlace = map(vocal, 20, 100, height-50, 50, true);
-  // var ovalSize = map(vocal, 20, 100, 60, 150, true);
+  // let ovalPlace = map(vocal, 20, 100, height-50, 50, true);
+  // let ovalSize = map(vocal, 20, 100, 60, 150, true);
   // fill(229,119,30); // darker orange
   // ellipse(width/2, ovalPlace, ovalSize);
 
