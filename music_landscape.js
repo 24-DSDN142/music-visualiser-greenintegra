@@ -8,6 +8,7 @@ let pulseLength = 500;
 let appleImage;
 let girlImage = [];
 let loaded = false;
+let drumGirl;
 
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
@@ -53,6 +54,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   let chord1 = 7322;
   let chord2 = 7828;
   let chord3 = 8306; //480ms approx. between beats
+  let lyric1 = 15200;
 
   if (realTime > chime1 - 100 && realTime < chime1 + 1400) {
     push();
@@ -112,17 +114,30 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     pop();
 
     push();
+    if (drum < 70) {
+      drumGirl = 0
+    } else {
+      drumGirl = drum
+    }
     if (loaded == false) {
       for (let i = 0; i <= 14; i++) {
-        if (i == 5 || i>=11 || i==7 || i==8){
+        if (realTime < chime3 + 3300) {
+          // translate(0, map(realTime, chime3, chime3+3300, canvasHeight, canvasHeight/1.5));
+          if (i == 5 || i >= 11 || i == 7 || i == 8) {
 
-        } else {
-        image(girlImage[i], canvasWidth/2, canvasHeight/1.5, canvasHeight/1.2, canvasHeight/1.2);
-        if (i>0){
-          push();
-          translate(0, map(drum, 70, 100, 20, 50))
-          pop();
-        }
+          } else if (i < 2) {
+            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+          } else {
+            image(girlImage[i], canvasWidth / 2, map(realTime, chime3, chime3+3300, canvasHeight, canvasHeight/1.5)+(map(-drumGirl, 70, 100, 0, -2)), canvasHeight / 1.2, canvasHeight / 1.2);
+          }
+        } else if (realTime > chime3 + 3300) {
+          if (i == 5 || i >= 11 || i == 7 || i == 8) {
+
+          } else if (i < 2) {
+            image(girlImage[i], canvasWidth / 2, canvasHeight / 1.5, canvasHeight / 1.2, canvasHeight / 1.2);
+          } else {
+            image(girlImage[i], canvasWidth / 2, map(-drumGirl, 70, 100, (canvasHeight / 1.52), (canvasHeight / 1.52) - 2), canvasHeight / 1.2, canvasHeight / 1.2);
+          }
         }
       }
     }
@@ -130,7 +145,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   }
 
 
-  
+
 
   let speaker1PositionX = 100;
   let speaker1PositionY = 100;
@@ -167,7 +182,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     drawSpeaker(0, 0, map(drum, 0, 100, speaker3SizeX / 2, speaker3SizeX), map(drum, 0, 100, speaker3SizeY / 2, speaker3SizeY), speaker3Rotation, speaker3Color);
     pop();
 
-    
+
   } else if (realTime > chime3 + 3300) {
     push();
     translate(speaker1PositionX, speaker1PositionY);
