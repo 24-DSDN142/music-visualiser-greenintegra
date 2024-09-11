@@ -1,14 +1,21 @@
 let last_words = "";
 let last_words_opacity = 0;
+let firstRun = true;
 let img;
 let fadeStart = 0;
 let isPulsing = false;
 let pulseLength = 500;
 let appleImage;
+let appleImage2 = [];
+
 
 function draw_one_frame(words, vocal, drum, bass, other,counter) {
-  angleMode(DEGREES);
-  noStroke();
+  if (firstRun){
+    angleMode(DEGREES);
+    appleImage = loadImage('apple.png');
+    firstRun = false
+    noStroke();
+  }
   let interval = 480;
   let bratGreen = color(137,204,4);
   let realTime = map(counter, 0, 9282, 0, 154709);
@@ -58,6 +65,18 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
     rectMode(CENTER);
     fill(137,204,4);
     rect(canvasWidth/2,canvasHeight/2,map(realTime, chime3, chime3+100, 0, canvasWidth),canvasHeight);
+    pop();
+    push();
+    imageMode(CENTER);
+    let applesVertical = 7;
+    let applesHorizontal = 10;
+    for (let x = 0; x < applesHorizontal; x++){
+      for (let i = 0; i < applesVertical; i ++){
+        tint(255,50);
+        image(appleImage, map(i, 0, applesVertical, 0, -canvasWidth)+(map(x, 0, applesHorizontal, 0, canvasWidth*2)),map(i, 0, applesVertical, 0, canvasHeight*1.75),map(bass, 60, 100, 75, 100),map(bass, 60, 100, 75, 100));
+
+      }
+    }
     pop();
   }
   
@@ -124,15 +143,7 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
     pop();
   }
 
-  appleImage = loadImage('apple.png');
 
-  if (realTime > chime3){
-    push();
-    for (let i = 0; i < 20; i ++){
-      image(appleImage, map(i, 0, 20, 0, canvasWidth),map(i, 0, 20, 0, canvasHeight*1.5),map(bass, 60, 100, 50, 100),map(bass, 60, 100, 50, 100));
-    }
-    pop();
-  }
   
   function drawSpeaker(x, y, w, h, rotation, r, g, b){
     push();
