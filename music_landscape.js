@@ -4,10 +4,13 @@ let img;
 let fadeStart = 0;
 let isPulsing = false;
 let pulseLength = 500;
+let appleImage;
 
 function draw_one_frame(words, vocal, drum, bass, other,counter) {
+  angleMode(DEGREES);
+  noStroke();
   let interval = 480;
-  let bratGreen = color(100,255,0);
+  let bratGreen = color(137,204,4);
   let realTime = map(counter, 0, 9282, 0, 154709);
 
   let adjustedTime = realTime-7828;
@@ -28,63 +31,143 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
   // print(realTime)
 
   background(0,0,0);
-  fill(100,255,0);
 
   let chime1 = 5412;
   let chime2 = 6367;
   let chime3 = 6850;
   let chord1 = 7322;
   let chord2 = 7828;
-  let chord3 = 8306; //500ms approx. between beats
+  let chord3 = 8306; //480ms approx. between beats
 
   if (realTime > chime1-100 && realTime < chime1+1400){
     push();
-    fill(100,255,0, map(realTime, chime1+400, chime1+500, 100, 0));
+    fill(137,204,4, map(realTime, chime1+400, chime1+500, 100, 0));
     rect(0,0,map(other, 50, 100, 0, canvasWidth/2),canvasHeight);
     pop();
   }
 
   if (realTime > chime2-100 && realTime < chime2+1400){
     push();
-    fill(100,255,0, map(realTime, chime2+400, chime2+500, 100, 0));
+    fill(137,204,4, map(realTime, chime2+400, chime2+500, 100, 0));
     rect(canvasWidth,0,map(other, 50, 100, 0, -canvasWidth/2),canvasHeight);
     pop();
   }
 
   if (realTime > chime3){
-    background(100,255,0,map(realTime, chime3+500, chime3+750, 100, 0));
+    push();
+    rectMode(CENTER);
+    fill(137,204,4);
+    rect(canvasWidth/2,canvasHeight/2,map(realTime, chime3, chime3+100, 0, canvasWidth),canvasHeight);
+    pop();
   }
-
+  
+  
   if (drum > 75){
     if (!isPulsing) {
       fadeStart = 0
       isPulsing = true;
       fadeStart = millis();
-      
     }
   }
   if (drum < 75){
     isPulsing = false;
   }
-  
 
-  if (fadeStart > 0 && realTime > chord2){
+  let speaker1PositionX = 100;
+  let speaker1PositionY = 100;
+  let speaker1SizeX = 100;
+  let speaker1SizeY = 200;
+  let speaker1Rotation = 30;
+  let speaker1Color = color(180,244,51);
+
+  let speaker2PositionX = canvasWidth-100;
+  let speaker2PositionY = canvasHeight-100;
+  let speaker2SizeX = 100;
+  let speaker2SizeY = 200;
+  let speaker2Rotation = -130;
+  let speaker2Color = color(205,252,111);
+
+  let speaker3PositionX = canvasWidth-80;
+  let speaker3PositionY = canvasHeight-240;
+  let speaker3SizeX = 100;
+  let speaker3SizeY = 120;
+  let speaker3Rotation = -150;
+  let speaker3Color = color(168,252,0);
+
+  if (realTime > chime3 && realTime < chime3+3300){
+    push();
+    translate(map(realTime, chime3+300, chime3+3300, -50, speaker1PositionX),map(realTime, chime3+300, chime3+3300, -50, speaker1PositionY));
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker1SizeX/2, speaker1SizeX), map(drum, 0, 100, speaker1SizeY/2, speaker1SizeY), speaker1Rotation, speaker1Color);
+    pop();
+    push();
+    translate(map(realTime, chime3+300, chime3+3300, canvasWidth+50, speaker2PositionX),map(realTime, chime3+300, chime3+3300, canvasHeight+50, speaker2PositionY));
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker2SizeX/2, speaker2SizeX), map(drum, 0, 100, speaker2SizeY/2, speaker2SizeY), speaker2Rotation, speaker2Color);
+    pop();
+    pop();
+    push();
+    translate(map(realTime, chime3+300, chime3+3300, canvasWidth+50, speaker3PositionX),map(realTime, chime3+300, chime3+3300, canvasHeight+50, speaker3PositionY));
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker3SizeX/2, speaker3SizeX), map(drum, 0, 100, speaker3SizeY/2, speaker3SizeY), speaker3Rotation, speaker3Color);
+    pop();
+
+
+  } else if (realTime > chime3+3300) {
+    push();
+    translate(speaker1PositionX, speaker1PositionY);
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker1SizeX/2, speaker1SizeX), map(drum, 0, 100, speaker1SizeY/2, speaker1SizeY), speaker1Rotation, speaker1Color);
+    pop();
+    push();
+    translate(speaker2PositionX, speaker2PositionY);
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker2SizeX/2, speaker2SizeX), map(drum, 0, 100, speaker2SizeY/2, speaker2SizeY), speaker2Rotation, speaker2Color);
+    pop();
+    push();
+    translate(speaker3PositionX, speaker3PositionY);
+    drawSpeaker(0, 0, map(drum, 0, 100, speaker3SizeX/2, speaker3SizeX), map(drum, 0, 100, speaker3SizeY/2, speaker3SizeY), speaker3Rotation, speaker3Color);
+    pop();
+  }
+
+  appleImage = loadImage('apple.png');
+
+  if (realTime > chime3){
+    push();
+    for (let i = 0; i < 20; i ++){
+      image(appleImage, map(i, 0, 20, 0, canvasWidth),map(i, 0, 20, 0, canvasHeight*1.5),map(bass, 60, 100, 50, 100),map(bass, 60, 100, 50, 100));
+    }
+    pop();
+  }
+  
+  function drawSpeaker(x, y, w, h, rotation, r, g, b){
+    push();
+    rotate(rotation);
+    translate(x, y);
+    noStroke();
+    fill(50,50,50);
+    ellipse(0, 0, w, h);
+    
+    fill(r, g, b);
+    ellipse(-w/12, 0, w/1.25, h/1.25);
+
+    fill(50,50,50);
+    ellipse(-w/4, 0, w/4, h/4);
+    pop();
+  }
+
+  if (fadeStart > 0 && realTime > chord1+100){
     let elapsedTime = millis() - fadeStart;
     // if (elapsedTime > pulseLength){
     //   isPulsing = false;
     // }
     push();
     noFill();
-    stroke(100,255,0, map(elapsedTime, 100, pulseLength, 100, 0));
+    stroke(0,0,0, map(elapsedTime, 100, pulseLength, 100, 0));
     strokeWeight(20);
-    circle(canvasWidth/2,canvasHeight/2,map(elapsedTime, 0, pulseLength, canvasHeight, 0));
+    circle(canvasWidth/2,canvasHeight/2,map(elapsedTime, 0, pulseLength, 30, canvasHeight));
     pop();
   }
 
   // if (realTime > chord3 && realTime < chord3+500){
   //   push();
   //   noFill();
-  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   stroke(137,204,4, map(realTime, chord3+200, 7814, 100, 0));
   //   strokeWeight(20);
   //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
   //   pop();
@@ -92,7 +175,7 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
   // while(realTime > chord3){
   //   push();
   //   noFill();
-  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   stroke(137,204,4, map(realTime, chord3+200, 7814, 100, 0));
   //   strokeWeight(20);
   //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
   //   wait(.5);
@@ -104,7 +187,7 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
   //   print(i);
   //   let circlePulseStep = (i*500)+chord3
   //   noFill();
-  //   stroke(100,255,0, map(realTime, chord3+200, 7814, 100, 0));
+  //   stroke(137,204,4, map(realTime, chord3+200, 7814, 100, 0));
   //   strokeWeight(20);
   //   circle(canvasWidth/2,canvasHeight/2,map(realTime, chord3, 7814, 30, canvasHeight));
   //   pop();
