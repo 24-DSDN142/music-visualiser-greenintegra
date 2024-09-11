@@ -117,7 +117,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
         tint(255,100);
         image(carImage, map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50, 50);
         image(carImage, map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50), 75, 50, 50);
-        image(carImage, map(drum,0,100,1,4)*(map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50)), 125, 50, 50);
+        image(carImage, map(drum,0,100,1,2)*(map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50)), 125, 50, 50);
         push();
         rotate(45)
         image(planeImage, map(realTime, theAirport1, theAirport1+4000, -50, canvasWidth+50), map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50);
