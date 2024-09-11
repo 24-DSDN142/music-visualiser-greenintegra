@@ -12,6 +12,20 @@ let carsImage;
 let girlImage = [];
 let loaded = false;
 let drumGirl;
+let yellowOrGreenCount = 0
+  let chime1 = 5412;
+  let chime2 = 6367;
+  let chime3 = 6850;
+  let chord1 = 7322;
+  let chord2 = 7828;
+  let chord3 = 8306; //480ms approx. between beats
+  let openEyes = 14500;
+  let lyric1 = 15200;
+  let throwApple = 22330;
+  let theAirport1 = 29650;
+  let theAirport2 = 52539;
+  let yellowOrGreen = 40614;
+  let isYellowOrGreen = false;
 
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
@@ -54,16 +68,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   }
 
 
-  let chime1 = 5412;
-  let chime2 = 6367;
-  let chime3 = 6850;
-  let chord1 = 7322;
-  let chord2 = 7828;
-  let chord3 = 8306; //480ms approx. between beats
-  let openEyes = 14500;
-  let lyric1 = 15200;
-  let throwApple = 22330;
-  let theAirport1 = 29650;
 
   if (realTime > chime1 - 100 && realTime < chime1 + 1400) {
     push();
@@ -85,6 +89,26 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     fill(137, 204, 4);
     rect(canvasWidth / 2, canvasHeight / 2, map(realTime, chime3, chime3 + 100, 0, canvasWidth), canvasHeight);
     pop();
+    if (realTime > yellowOrGreen) {
+      if (drum > 70) {
+        if (!isYellowOrGreen){
+          isYellowOrGreen = true;
+            if (yellowOrGreenCount == 0 || yellowOrGreenCount == 2){
+            bratGreen = color(242,231,36); print("KK")
+            fill(bratGreen);
+            rect(canvasWidth/2,canvasHeight/2,canvasWidth,canvasHeight);
+            yellowOrGreenCount = yellowOrGreenCount + 1;
+          } else if (yellowOrGreenCount == 1 || yellowOrGreenCount == 3); {
+            bratGreen = color(137,204,4);
+            fill(bratGreen);
+            rect(canvasWidth/2,canvasHeight/2,canvasWidth,canvasHeight);
+            yellowOrGreenCount = yellowOrGreenCount + 1;
+          }
+        }
+      } else {
+        isYellowOrGreen = false;
+      }
+    }
     if (realTime < 16657){
       push();
       let applesVertical = 7;
@@ -112,16 +136,32 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
           }
         }
       }
-      pop();} else if (realTime > theAirport1) {
+      pop();} else if ((realTime > theAirport1 && realTime < theAirport1+5000)) {
         push();
         tint(255,100);
         image(carImage, map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50, 50);
-        image(carImage, map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50), 75, 50, 50);
-        image(carImage, map(drum,0,100,1,2)*(map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50)), 125, 50, 50);
+        image(carImage, map(realTime, theAirport1+1000, theAirport1+4200, canvasWidth+50, -50), 125, 50, 50);
+        image(carImage, map(realTime, theAirport1+500, theAirport1+4200, canvasWidth+50, -50), 325, 50, 50);
+        image(carImage, map(realTime, theAirport1+500, theAirport1+3500, canvasWidth+50, -50), 465, 50, 50);
+        image(carImage, map(realTime, theAirport1+500, theAirport1+3700, canvasWidth+50, -50), 200, 50, 50);
         push();
         rotate(45)
         image(planeImage, map(realTime, theAirport1, theAirport1+4000, -50, canvasWidth+50), map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -50), 50, 50);
         image(planeImage, map(realTime, theAirport1+500, theAirport1+4500, -150, canvasWidth+50), map(realTime, theAirport1, theAirport1+4000, canvasWidth+50, -150), 50, 50);
+        pop();
+        pop();
+      } else if ((realTime > theAirport2 && realTime < theAirport2+5000)){
+        push();
+        tint(255,100);
+        image(carImage, map(realTime, theAirport2, theAirport2+4000, canvasWidth+50, -50), 250, 50, 50);
+        image(carImage, map(realTime, theAirport2+1200, theAirport2+4200, canvasWidth+50, -50), 375, 50, 50);
+        image(carImage, map(realTime, theAirport2+1500, theAirport2+4200, canvasWidth+50, -50), 425, 50, 50);
+        image(carImage, map(realTime, theAirport2+500, theAirport2+3000, canvasWidth+50, -50), 565, 50, 50);
+        image(carImage, map(realTime, theAirport2+750, theAirport2+3700, canvasWidth+50, -50), 600, 50, 50);
+        push();
+        rotate(45)
+        image(planeImage, map(realTime, theAirport2, theAirport2+4000, -50, canvasWidth+850), map(realTime, theAirport2, theAirport2+4000, canvasWidth+850, -50), 50, 50);
+        image(planeImage, map(realTime, theAirport2+500, theAirport2+4500, -150, canvasWidth+350), map(realTime, theAirport2, theAirport2+4000, canvasWidth+350, -150), 50, 50);
         pop();
         pop();
       }
