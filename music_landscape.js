@@ -3,33 +3,6 @@ let last_words_opacity = 0;
 
 function draw_one_frame(words, vocal, drum, bass, other,counter) {
   let realTime = map(counter, 0, 9282, 0, 154709);
-  background(0,0,0);
-  // fill(100,255,0);
-  
-
-  let chime1 = 5412;
-  let chime2 = 6367;
-  let chime3 = 6850;
-  if (realTime > chime1 && realTime < chime2){
-    rect(0,0,map(other, 50, 100, 0, canvasWidth/2),canvasHeight);
-  }
-
-  if (realTime > chime2 && realTime < chime3){
-    rect(canvasWidth,0,map(other, 50, 100, 0, -canvasWidth/2),canvasHeight);
-  }
-
-  if (realTime > chime3){
-    circle(canvasWidth/2,canvasHeight/2,map(other, 30, 100, 30, canvasHeight/2));
-  }
-
-
-
-
-
-
-
-  
-
   fill(200);
   textAlign(LEFT);
   // demonstrate use of non-documented "counter" variable
@@ -38,7 +11,47 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
     textSize(60);
     text(nf(realTime, 3, 2), 20, height-20);
   }
-print(realTime)
+  print(realTime)
+
+  background(0,0,0);
+  fill(100,255,0);
+
+  let chime1 = 5412;
+  let chime2 = 6367;
+  let chime3 = 6850;
+  let chord1 = 7322;
+  if (realTime > chime1-100 && realTime < chime2+100){
+    push()
+    fill(100, 255, 0, map(realTime, chime1+600, chime2, 100, 0));
+    rect(0,0,map(other, 50, 100, 0, canvasWidth/2),canvasHeight);
+    pop()
+  }
+
+  if (realTime > chime2-100 && realTime < chime3+400){
+    push()
+    fill(100, 255, 0, map(realTime, chime2+300, chime3+100, 100, 0));
+    rect(canvasWidth,0,map(other, 50, 100, 0, -canvasWidth/2),canvasHeight);
+    pop()
+  }
+
+  if (realTime > chime3){
+    push()
+    noFill();
+    stroke(100, 255, 0, map(realTime, chime3+100, chord1, 100, 0));
+    strokeWeight(20);
+    circle(canvasWidth/2,canvasHeight/2,map(realTime, chime3, chord1, 30, canvasHeight));
+    pop()
+  }
+
+
+
+
+
+
+
+  
+
+  
   // background(255,236,180); // cream
   // fill(244,161,39); // orange
 
