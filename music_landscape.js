@@ -1,6 +1,9 @@
 let last_words = "";
 let last_words_opacity = 0;
 let img;
+let fadeStart = 0;
+let isPulsing = false;
+let pulseLength = 500;
 
 function draw_one_frame(words, vocal, drum, bass, other,counter) {
   let interval = 480;
@@ -12,7 +15,7 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
   if (adjustedTime < 0){
     adjustedTime = 0;
   }
-  print(cycleTime)
+  // print(cycleTime)
 
   fill(200);
   textAlign(LEFT);
@@ -33,7 +36,6 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
   let chord1 = 7322;
   let chord2 = 7828;
   let chord3 = 8306; //500ms approx. between beats
-  let ms = millis();
 
   if (realTime > chime1-100 && realTime < chime1+1400){
     push();
@@ -53,12 +55,29 @@ function draw_one_frame(words, vocal, drum, bass, other,counter) {
     background(100,255,0,map(realTime, chime3+500, chime3+750, 100, 0));
   }
 
-  if (cycleTime > 0){
+  if (drum > 75){
+    if (!isPulsing) {
+      fadeStart = 0
+      isPulsing = true;
+      fadeStart = millis();
+      
+    }
+  }
+  if (drum < 75){
+    isPulsing = false;
+  }
+  
+
+  if (fadeStart > 0 && realTime > chord2){
+    let elapsedTime = millis() - fadeStart;
+    // if (elapsedTime > pulseLength){
+    //   isPulsing = false;
+    // }
     push();
     noFill();
-    stroke(100,255,0, map(cycleTime, 250, interval, 100, 0));
+    stroke(100,255,0, map(elapsedTime, 100, pulseLength, 100, 0));
     strokeWeight(20);
-    circle(canvasWidth/2,canvasHeight/2,map(cycleTime, 0, interval, 30, canvasHeight));
+    circle(canvasWidth/2,canvasHeight/2,map(elapsedTime, 0, pulseLength, canvasHeight, 0));
     pop();
   }
 
