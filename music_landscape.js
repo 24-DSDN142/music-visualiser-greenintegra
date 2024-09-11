@@ -7,6 +7,7 @@ let isPulsing = false;
 let pulseLength = 500;
 let appleImage;
 let girlImage = [];
+let loaded = false;
 
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
@@ -16,15 +17,15 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
     appleImage = loadImage('apple.png');
     girlImage.push(loadImage('/girl/girlBody.png'));
-    girlImage.push(loadImage('/girl/girlChin.png'));
     girlImage.push(loadImage('/girl/girlClothes.png'));
+    girlImage.push(loadImage('/girl/girlHead.png'));
+    girlImage.push(loadImage('/girl/girlFrontHair.png'));
+    girlImage.push(loadImage('/girl/girlChin.png'));
     girlImage.push(loadImage('/girl/girlEyelids.png'));
     girlImage.push(loadImage('/girl/girlEyesClosed.png'));
-    girlImage.push(loadImage('/girl/girlFrontHair.png'));
-    girlImage.push(loadImage('/girl/girlHead.png'));
     girlImage.push(loadImage('/girl/girlLeftEye.png'));
-    girlImage.push(loadImage('/girl/girlNose.png'));
     girlImage.push(loadImage('/girl/girlRightEye.png'));
+    girlImage.push(loadImage('/girl/girlNose.png'));
     girlImage.push(loadImage('/girl/mouth.png'));
     girlImage.push(loadImage('/girl/mouth1.png'));
     girlImage.push(loadImage('/girl/mouth2.png'));
@@ -85,30 +86,51 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     }
     pop();
     push();
-    let loaded = false;
+    if (drum > 90) {
+      if (!isPulsing) {
+        fadeStart = 0
+        isPulsing = true;
+        fadeStart = millis();
+      }
+    }
+    if (drum < 90) {
+      isPulsing = false;
+    }
+
+    if (fadeStart > 0 && realTime > chord1 + 100) {
+      let elapsedTime = millis() - fadeStart;
+      // if (elapsedTime > pulseLength){
+      //   isPulsing = false;
+      // }
+      push();
+      noFill();
+      stroke(0, 0, 0, map(elapsedTime, 100, pulseLength, 100, 0));
+      strokeWeight(map(elapsedTime, 100, pulseLength, 100, 0));
+      circle(canvasWidth / 2, canvasHeight / 2, map(elapsedTime, 0, pulseLength, 30, canvasHeight));
+      pop();
+    }
+    pop();
+
+    push();
     if (loaded == false) {
-      for (let i = 15; i == 15; i++) {
-        image(girlImage[i], canvasWidth/2, canvasHeight/2, canvasHeight, canvasHeight);
-        // if (i == 15) {
-        //   loaded = true;
-        //   print(loaded);
-        // }
+      for (let i = 0; i <= 14; i++) {
+        if (i == 5 || i>=11 || i==7 || i==8){
+
+        } else {
+        image(girlImage[i], canvasWidth/2, canvasHeight/1.5, canvasHeight/1.2, canvasHeight/1.2);
+        if (i>0){
+          push();
+          translate(0, map(drum, 70, 100, 20, 50))
+          pop();
+        }
+        }
       }
     }
     pop();
   }
 
 
-  if (drum > 75) {
-    if (!isPulsing) {
-      fadeStart = 0
-      isPulsing = true;
-      fadeStart = millis();
-    }
-  }
-  if (drum < 75) {
-    isPulsing = false;
-  }
+  
 
   let speaker1PositionX = 100;
   let speaker1PositionY = 100;
@@ -176,19 +198,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
     fill(50, 50, 50);
     ellipse(-w / 4, 0, w / 4, h / 4);
-    pop();
-  }
-
-  if (fadeStart > 0 && realTime > chord1 + 100) {
-    let elapsedTime = millis() - fadeStart;
-    // if (elapsedTime > pulseLength){
-    //   isPulsing = false;
-    // }
-    push();
-    noFill();
-    stroke(0, 0, 0, map(elapsedTime, 100, pulseLength, 100, 0));
-    strokeWeight(20);
-    circle(canvasWidth / 2, canvasHeight / 2, map(elapsedTime, 0, pulseLength, 30, canvasHeight));
     pop();
   }
 
