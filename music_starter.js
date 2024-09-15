@@ -16,6 +16,18 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    rect(bar_pos_x, height / 2 + 1 * bar_spacing, 4 * vocal, bar_height);
    fill(0);
    text("vocals", bar_pos_x, height / 2 + 1 * bar_spacing + 8);
+
+  //  // orange square
+  //  fill(255,155,0);
+  //  let rectMap = map(vocal, 0, 100, 50,500);
+  //  let rectMap2 = map(vocal, 0, 100, 25, 600);
+  //  rect(bar_pos_x, 50, rectMap, rectMap2);
+
+  // // for loop
+  // let ellipsePosY = 100
+  // for(let i = 0; i <=6; i ++){
+  //   ellipse(400, ellipsePosY*i, vocal*i, vocal*(2*i))
+  // }
  
    // drum bar is green
    fill(0, 200, 0);
