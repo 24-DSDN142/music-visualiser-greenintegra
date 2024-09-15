@@ -49,15 +49,9 @@ let theAirport1 = 29650;
 let theAirport2 = 52539;
 let imGonnaDrive1 = 72000;
 let imGonnaDrive2 = 74000;
-// let iThinkThe = 75900;
-// let rightToThe = 78500;
-// let coreClap = 79263;
 let iThinkThe = 75900;
 let rightToThe = 79000;
 let coreClap = 80263;
-// let iThinkThe = 0;
-// let rightToThe = 3300;
-// let coreClap = 3500;
 
 let iSplit = 83747;
 let symmetrical = 85202;
@@ -69,8 +63,8 @@ let driveMultiplier = 450;
 let iWannaKnow = 105637;
 let iWannaKnowClap = 113283;
 
-// let duYu = 120219;
-let duYu = 0;
+let duYu = 120219;
+// let duYu = 0;
 let duYuMultiplier = 975;
 
 let duYuDOOT = 136876;
@@ -299,10 +293,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       rect(0, 0, 50, canvasHeight);
       pop();
     } else if (realTime > coreClap) {
-      // let colorXR = color(red(map(realTime,coreClap,endSong,120,480)));
       fill(137, 204, 4);
-      // if (colorXR>360){colorXR=colorXR-360}
-      // fill(colorXR,100,100);
       rect(canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight);
     }
 
@@ -348,25 +339,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
         fill(4, 30, 204, itBe);
         rect(canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight);
       }
-
-      // let county = (realTime-duYu)/duYuMultiplier;
-
-      // fill(4,30,204,map())
-
-
-
-
-
-      // let loopTime = realTime - duYu;
-      // let loopMulti = duYuMultiplier;
-      // if (loopTime > duYuMultiplier){
-      //   loopTime = realTime-realTime
-      // }
-      // let loopCurrent = map(loopTime,0,loopMulti)
-      // if (loopTime > 0){
-      //   fill(4,30,204,map(loopTime,0,300,255,0));
-      //   rect(canvasWidth/2,canvasHeight/2,canvasWidth,canvasHeight);
-      // }
     }
 
     //Background pattern
@@ -417,8 +389,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     }
     if (realTime >= chime4 && realTime < chime4 + 2001) {
       push();
-      // let applesVertical = 7;
-      // let applesHorizontal = 10;
       for (let x = 1; x <= applesHorizontal; x++) {
         for (let i = 1; i <= applesVertical; i++) {
           tint(red(bratGreen), green(bratGreen), blue(bratGreen), 100);
@@ -542,15 +512,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       let colorRect1 = color(red(bratGreen) - 40, green(bratGreen) - 40, blue(bratGreen) - 40);
       let colorRect2 = color(red(bratGreen) + 40, green(bratGreen) + 40, blue(bratGreen) + 40);
       let colorRect3 = color(red(bratGreen) + 100, green(bratGreen) + 100, blue(bratGreen) + 100);
-      // fill(colorRect1);
-      // rect(0,0,map(valuerDrum,0,100,50,colorRectSize),canvasHeight);
-      // rect(canvasWidth,0,-map(valuerDrum,0,100,50,colorRectSize),canvasHeight);
-      // fill(colorRect2);
-      // rect(0,0,map(valuerDrum,0,100,30,colorRectSize/2),canvasHeight);
-      // rect(canvasWidth,0,-map(valuerDrum,0,100,30,colorRectSize/2),canvasHeight);
-      // fill(colorRect3);
-      // rect(0,0,map(valuerDrum,0,100,15,colorRectSize/3),canvasHeight);
-      // rect(canvasWidth,0,-map(valuerDrum,0,100,15,colorRectSize/3),canvasHeight);
       pop();
 
       push();
@@ -620,7 +581,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       push();
       translate(canvasWidth / 2, canvasHeight / 2);
       image(halftone[0], 0, 0, 1200, map(valuerDrum, 0, 100, 900, 750));
-      // image(halftone[1],0,0,map(valuerOther,0,100,1200,1000),900);
       pop();
     }
 
@@ -800,12 +760,10 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       tint(0, map(realTime, coreClap - 1000, coreClap, 255, 0));
       image(appleMask[1], 0, 0, resizeApple, resizeApple);
       pop();
-      //background(bratGreen);
     }
 
 
     //Speakers
-    //137,204,4
     let speaker1PositionX = 100;
     let speaker1PositionY = 100;
     let speaker1SizeX = 100;
