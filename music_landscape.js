@@ -87,8 +87,11 @@ let isYellowOrGreen = false;
 let drumGirl;
 
 //Pattern values
-let applesVertical = 7;
-let applesHorizontal = 10;
+let applesVertical = 4;
+let applesHorizontal = 7;
+let multiple;
+let multiple2;
+let Ymultiple;
 
 //Other variables
 let interval = 480;
@@ -106,6 +109,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(0, 0, 0);
 
   if (firstRun) {
+    multiple = canvasWidth/(applesHorizontal-1);
+    multiple2 = canvasWidth/(applesHorizontal);
+    Ymultiple = canvasWidth/(applesVertical-1);
 
     //Images
     appleImage = loadImage('apple.png');
@@ -142,9 +148,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     textAlign(CENTER);
     textSize(50);
     if (realTime < endSongX + 1500) {
-      text('song by charli xcx',canvasWidth/2,canvasHeight/2);
+      text('song by charli xcx', canvasWidth / 2, canvasHeight / 2);
     } else if (realTime > endSongX + 1500 && realTime < endSong) {
-      text('visuals by jude mchardie',canvasWidth/2,canvasHeight/2);
+      text('visuals by jude mchardie', canvasWidth / 2, canvasHeight / 2);
     }
   } else {
 
@@ -371,37 +377,45 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
     //Background pattern
     if (realTime < chime4) {
-      for (let x = 0; x < applesHorizontal; x++) {
-        for (let i = 0; i < applesVertical; i++) {
-          push();
-          tint(red(bratGreen), green(bratGreen), blue(bratGreen), map(realTime, chime3, chime4, 0, 100));
-          scale(map(realTime, chime3, chime4, 3, 1));
-          translate(map(realTime, chime3, chime4, -canvasWidth / 3, 0), map(realTime, chime3, chime4, -canvasHeight / 3, 0));
-          image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), map(i, 0, applesVertical, 0, canvasHeight * 1.75), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
-          pop();
+      push();
+      tint(red(bratGreen), green(bratGreen), blue(bratGreen), map(realTime, chime3, chime4, 0, 100));
+      scale(map(realTime, chime3, chime4, 3, 1));
+      translate(map(realTime, chime3, chime4, -canvasWidth / 3, 0), map(realTime, chime3, chime4, -canvasHeight / 3, 0));
+      for (let x = 1; x <= applesHorizontal; x++) {
+        for (let i = 1; i <= applesVertical; i++) {
+          if (i % 2 == 0) {
+            let multipleOf = x*multiple
+            let YmultipleOf = i*Ymultiple
+            image(appleImage, multipleOf, YmultipleOf, map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+          } else {
+            let multipleOf2 = x*multiple2
+            let YmultipleOf = i*Ymultiple
+            image(appleImage, multipleOf2,YmultipleOf, map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+          }
         }
       }
+      pop();
     }
     if (realTime > coreClap && realTime < dDrive) {
-      for (let x = 0; x < applesHorizontal; x++) {
-        for (let i = 0; i < applesVertical; i++) {
+      let transparencyValue;
+      if (realTime > coreClap + 750) {
+        transparencyValue = 100;
+      } else {
+        transparencyValue = map(realTime, coreClap, coreClap + 750, 0, 100);
+      }
+      for (let x = 0; x <= applesHorizontal; x++) {
+        for (let i = 0; i <= applesVertical; i++) {
           push();
-          let transparencyValue;
-          if (realTime > coreClap + 750) {
-            transparencyValue = 100;
-          } else {
-            transparencyValue = map(realTime, coreClap, coreClap + 750, 0, 100);
-          }
           tint(red(bratGreen), green(bratGreen), blue(bratGreen), transparencyValue);
           //scale(map(realTime, chime3, chime4, 3, 1));
           //translate(map(realTime, chime3, chime4, -canvasWidth / 3, 0), map(realTime, chime3, chime4, -canvasHeight / 3, 0));
-          image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), map(i, 0, applesVertical, 0, canvasHeight * 1.75), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
+          image(appleImage, (map(x, 0, applesHorizontal, 0, canvasWidth)), map(i, 0, applesVertical, 0, canvasHeight), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
           pop();
         }
-      } 
+      }
     } else if (realTime >= dDrive && realTime < iWannaKnow) {
-      for (let x = 0; x < applesHorizontal; x++) {
-        for (let i = 0; i < applesVertical; i++) {
+      for (let x = 0; x <= applesHorizontal; x++) {
+        for (let i = 0; i <= applesVertical; i++) {
           push();
           let transparencyValue;
           if (realTime > coreClap + 750) {
@@ -417,14 +431,14 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
         }
       }
       let thisTime = realTime - dDrive
-      image(carImage, map(drum,0,100,1,2)*(map(thisTime, 0, 3200, canvasWidth+50, -50)), 125, 50, 50);
+      image(carImage, map(drum, 0, 100, 1, 2) * (map(thisTime, 0, 3200, canvasWidth + 50, -50)), 125, 50, 50);
     }
     if (realTime >= chime4 && realTime < chime4 + 2001) {
       push();
-      let applesVertical = 7;
-      let applesHorizontal = 10;
-      for (let x = 0; x < applesHorizontal; x++) {
-        for (let i = 0; i < applesVertical; i++) {
+      // let applesVertical = 7;
+      // let applesHorizontal = 10;
+      for (let x = 0; x <= applesHorizontal; x++) {
+        for (let i = 0; i <= applesVertical; i++) {
           tint(red(bratGreen), green(bratGreen), blue(bratGreen), 100);
           if (realTime < chime4 + 1000) {
             image(appleImage, (map(i, 0, applesVertical, 0, -canvasWidth)) + (map(x, 0, applesHorizontal, 0, canvasWidth * 2)), (map(realTime, chime4, chime4 + 1000, (map(i, 0, applesVertical, 0, canvasHeight * 1.75)), canvasHeight)), map(bass, 60, 100, 75, 100), map(bass, 60, 100, 75, 100));
