@@ -69,8 +69,9 @@ let driveMultiplier = 450;
 let iWannaKnow = 105637;
 let iWannaKnowClap = 113283;
 
-let duYu = 120219;
-let duYuMultiplier = 1050;
+// let duYu = 120219;
+let duYu = 0;
+let duYuMultiplier = 975;
 
 let duYuDOOT = 136876;
 let duYuDOOT2 = 137834;
