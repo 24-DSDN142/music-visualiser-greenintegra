@@ -70,7 +70,7 @@ let iWannaKnow = 105637;
 let iWannaKnowClap = 113283;
 
 let duYu = 120219;
-let duYuMultiplier = 900;
+let duYuMultiplier = 1050;
 
 let duYuDOOT = 136876;
 let duYuDOOT2 = 137834;
@@ -321,7 +321,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       let duYu2 = duYu + (duYuMultiplier);
       let duYu3 = duYu2 + (duYuMultiplier);
       let duYu4 = duYu3 + (duYuMultiplier);
-      let duYu5 = duYu4 + (duYuMultiplier);
 
       let itBe;
 
@@ -344,12 +343,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       }
 
       itBe = map(realTime, duYu4, duYu4 + (duYuMultiplier - 100), 255, 0);
-      if (!(itBe > 255 || itBe < 0)) {
-        fill(4, 30, 204, itBe);
-        rect(canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight);
-      }
-
-      itBe = map(realTime, duYu5, duYu5 + (duYuMultiplier - 100), 255, 0);
       if (!(itBe > 255 || itBe < 0)) {
         fill(4, 30, 204, itBe);
         rect(canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight);
